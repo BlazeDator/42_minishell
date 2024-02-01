@@ -1,0 +1,9 @@
+**/libft/*.o
+**/libft/libft.a
+**/objs/*
+**/*.sh
+**/srcs/*.swp
+**/headers/*.swp
+**/*.swp
+**/.nfs
+*.o
