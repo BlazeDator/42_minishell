@@ -14,13 +14,16 @@
 
 void	ft_executer(char *path)
 {
-	char	**test;
+	char **test;
+	extern char **environ;
 
-	test = 0;
+	test = malloc(sizeof(char *) * 2);
+	test[0] = ft_strdup("Minishell");
+	test[1] = ft_strdup("");
 	if (fork() == 0)
 	{
 		ft_restore_signals();
-		execve(path, test, test);
+		execve(path, test, environ);
 		exit(0);
 	}
 	ft_ignore_signals();
@@ -29,4 +32,7 @@ void	ft_executer(char *path)
 		printf("\n");
 	rl_on_new_line();
 	ft_init_signals();
+	free(test[0]);
+	free(test[1]);
+	free(test);
 }
