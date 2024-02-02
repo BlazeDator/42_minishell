@@ -67,4 +67,6 @@ void	ft_handle_sigquit(int sig);
 /*				exit.c				      	      */
 /* ************************************************************************** */
 void	ft_exit(void);
+/*TODO: hack, remove later*/
+char	**return_argv(char **argv);
 #endif
