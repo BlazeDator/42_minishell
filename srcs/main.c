@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 /*TODO: remove this, its an hack*/
 char	**return_argv(char **argv)
 {
-	static char **arr;
+	static char	**arr;
 
 	if (argv)
 		arr = argv;

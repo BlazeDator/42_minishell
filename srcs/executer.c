@@ -14,8 +14,8 @@
 
 void	ft_executer(char *path)
 {
-	char	**argv;
-	extern char **environ;
+	char		**argv;
+	extern char	**environ;
 
 	argv = return_argv(0);
 	if (fork() == 0)

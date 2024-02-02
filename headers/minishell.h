@@ -30,10 +30,26 @@
 /*				Macros					      */
 /* ************************************************************************** */
 # define PROMPT "[Minishell]>"
-
 /* ************************************************************************** */
 /*				Structs					      */
 /* ************************************************************************** */
+// *next -> if pipe.
+typedef struct s_minish
+{
+	char			*command;
+	char			**args;
+	struct s_envs	*envs;
+	char			**redir_in;
+	char			**redir_out;
+	struct s_minish	*next;
+}					t_minish;
+
+typedef struct s_envs
+{
+	char			*key;
+	char			*value;
+	struct s_envs	*next;
+}					t_envs;
 /* ************************************************************************** */
 /*				Global Var				      */
 /* ************************************************************************** */
@@ -67,6 +83,7 @@ void	ft_handle_sigquit(int sig);
 /*				exit.c				      	      */
 /* ************************************************************************** */
 void	ft_exit(void);
-/*TODO: hack, remove later*/
+/*TODO: hack, remove later or not
+ * we could create an api file :)*/
 char	**return_argv(char **argv);
 #endif
