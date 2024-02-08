@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   api.c                                              :+:      :+:    :+:   */
+/*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,20 +12,55 @@
 
 #include "../headers/minishell.h"
 
-t_envs	*return_envs(t_envs *envs)
+t_envs	*ft_create_envs(void)
 {
-	static t_envs	*static_envs;
+	extern char	**environ;
+	t_envs		*envs;
 
-	if (envs)
-		static_envs = envs;
-	return (static_envs);
+	envs = 0;
+	while (*environ)
+	{
+		envs = ft_add_env(envs, ft_new_env(*environ));
+		environ++;
+	}
+	return (envs);
 }
 
-char	**return_argv(char **argv)
+t_envs	*ft_new_env(char *str)
 {
-	static char	**static_argv;
+	t_envs	*envs;
+	int		len;
 
-	if (argv)
-		static_argv = argv;
-	return (static_argv);
+	envs = malloc(sizeof(t_envs));
+	len = 0;
+	while (str[len] != '=')
+		len++;
+	len++;
+	envs->key = malloc(len);
+	ft_strlcpy(envs->key, str, len);
+	str += (len);
+	len = ft_strlen(str);
+	len++;
+	envs->value = malloc(len);
+	ft_strlcpy(envs->value, str, len);
+	envs->next = 0;
+	return (envs);
+}
+
+t_envs	*ft_add_env(t_envs *envs, t_envs *new)
+{
+	t_envs	*start;
+
+	start = 0;
+	if (envs && new)
+	{
+		start = envs;
+		while (envs->next)
+			envs = envs->next;
+		envs->next = new;
+		return (start);
+	}
+	else if (new)
+		return (new);
+	return (0);
 }

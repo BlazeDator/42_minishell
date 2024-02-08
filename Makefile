@@ -19,6 +19,7 @@ LIBFT_DIR = libft/
 SRCS = main.c minishell.c \
 parser.c \
 executer.c \
+envs.c \
 api.c \
 signals/signal.c signals/signal_handlers.c \
 exit.c
