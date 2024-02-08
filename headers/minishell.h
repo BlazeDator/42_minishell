@@ -72,6 +72,8 @@ void	ft_executer(char *path);
 t_envs	*ft_create_envs(void);
 t_envs	*ft_new_env(char *str);
 t_envs	*ft_add_env(t_envs *envs, t_envs *new);
+t_envs	*ft_del_env(t_envs *envs, char *key);
+t_envs	*ft_free_envs(t_envs *envs);
 /* ************************************************************************** */
 /*				api.c					      */
 /* ************************************************************************** */

@@ -19,5 +19,6 @@
 
 void	ft_exit(void)
 {
+	ft_free_envs(return_envs(0));
 	exit(0);
 }

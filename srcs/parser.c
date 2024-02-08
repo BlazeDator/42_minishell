@@ -19,7 +19,7 @@ void	ft_parser(char *line)
 	if (!ft_check_open_quotes(line))
 		return ;
 	if (!strncmp(line, "exit", 4))
-		exit(0);
+		ft_exit();
 	if (!strncmp(line, "cat", 3))
 		ft_executer("/bin/cat");
 	if (!strncmp(line, "ls", 2))
