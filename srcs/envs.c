@@ -67,8 +67,8 @@ t_envs	*ft_add_env(t_envs *envs, t_envs *new)
 
 t_envs	*ft_del_env(t_envs *envs, char *key)
 {
-	t_envs *start;
-	t_envs *last;
+	t_envs	*start;
+	t_envs	*last;
 
 	start = envs;
 	last = envs;
