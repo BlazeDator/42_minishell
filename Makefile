@@ -22,7 +22,8 @@ executer.c \
 envs.c \
 api.c \
 signals/signal.c signals/signal_handlers.c \
-exit.c
+exit.c \
+builtins/echo.c
 SRCS_DIR = srcs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 OBJS_DIR = objs/
@@ -42,7 +43,7 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 $(OBJS_DIR):
 	mkdir -p objs
 	mkdir -p objs/signals/
-
+	mkdir -p objs/builtins/
 clean:
 	$(RM) $(OBJS)
 
