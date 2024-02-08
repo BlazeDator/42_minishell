@@ -12,8 +12,8 @@
 
 #include "../../headers/minishell.h"
 
-void	set_values(int *quote_flag, char *quote, char *arg);
-void	ft_echo_new_line(char **array_args);
+static void	set_values(int *quote_flag, char *quote, char *arg);
+static void	ft_echo_new_line(char **array_args);
 
 void	ft_exec_echo(char **array_args)
 {
@@ -44,13 +44,13 @@ void	ft_exec_echo(char **array_args)
 	ft_echo_new_line(array_args);
 }
 
-void	ft_echo_new_line(char **array_args)
+static void	ft_echo_new_line(char **array_args)
 {
 	if (ft_strcmp(array_args[0], "-n"))
 		printf("\n");
 }
 
-void	set_values(int *quote_flag, char *quote, char *arg)
+static void	set_values(int *quote_flag, char *quote, char *arg)
 {
 	*quote_flag = 1;
 	*quote = *arg;
