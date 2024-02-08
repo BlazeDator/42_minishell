@@ -19,7 +19,9 @@ LIBFT_DIR = libft/
 SRCS = main.c minishell.c \
 parser.c \
 executer.c \
-signal.c signal_handlers.c \
+envs.c \
+api.c \
+signals/signal.c signals/signal_handlers.c \
 exit.c
 SRCS_DIR = srcs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -39,6 +41,7 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 
 $(OBJS_DIR):
 	mkdir -p objs
+	mkdir -p objs/signals/
 
 clean:
 	$(RM) $(OBJS)
@@ -49,7 +52,7 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette -R CheckForbiddenSourceHeader headers/*.h srcs/*.c
+	norminette -R CheckForbiddenSourceHeader headers/*.h srcs/*.c srcs/**/*.c
 
 leak: all
 	valgrind --leak-check=full --show-leak-kinds=all \

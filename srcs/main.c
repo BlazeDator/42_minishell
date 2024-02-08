@@ -19,17 +19,8 @@ int	main(int argc, char **argv)
 	if (argc != 1 && argv)
 		return (printf("No arguments\n"));
 	return_argv(argv);
+	return_envs(ft_create_envs());
 	ft_init_signals();
 	ft_minishell();
 	return (0);
-}
-
-/*TODO: remove this, its an hack*/
-char	**return_argv(char **argv)
-{
-	static char	**arr;
-
-	if (argv)
-		arr = argv;
-	return (arr);
 }

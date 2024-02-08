@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   api.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 09:42:17 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 14:23:47 by pabernar         ###   ########.fr       */
+/*   Created: 2024/02/01 14:00:28 by pabernar          #+#    #+#             */
+/*   Updated: 2024/02/01 15:29:37 by pabernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	ft_init_signals(void)
+t_envs	*return_envs(t_envs *envs)
 {
-	g_signal = 0;
-	signal(SIGINT, ft_handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	static t_envs	*static_envs;
+
+	if (envs)
+		static_envs = envs;
+	return (static_envs);
 }
 
-void	ft_ignore_signals(void)
+char	**return_argv(char **argv)
 {
-	signal(SIGINT, ft_handle_sigint_ign);
-	signal(SIGQUIT, ft_handle_sigquit);
-}
+	static char	**static_argv;
 
-void	ft_restore_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (argv)
+		static_argv = argv;
+	return (static_argv);
 }
