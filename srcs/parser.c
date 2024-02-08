@@ -16,6 +16,9 @@ int	ft_check_open_quotes(char *line);
 
 void	ft_parser(char *line)
 {
+	char	**temp_array;
+
+	temp_array = ft_split(line, ' ');
 	if (!ft_check_open_quotes(line))
 		return ;
 	if (!strncmp(line, "exit", 4))
@@ -24,6 +27,8 @@ void	ft_parser(char *line)
 		ft_executer("/bin/cat");
 	if (!strncmp(line, "ls", 2))
 		ft_executer("/bin/ls");
+	if (!strncmp(temp_array[0], "echo", 4))
+		ft_exec_echo(&temp_array[1]);
 }
 
 int	ft_check_open_quotes(char *line)
