@@ -12,6 +12,8 @@
 
 #include "../headers/minishell.h"
 
+int	ft_check_open_quotes(char *line);
+
 void	ft_parser(char *line)
 {
 	char	**temp_array;
