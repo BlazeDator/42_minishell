@@ -45,7 +45,7 @@ typedef struct s_minish
 	struct s_minish	*next;
 }					t_minish;
 
-typedef	enum s_special
+typedef enum s_special
 {
 	DEFAULT,
 	RD_OVERWRITE,
@@ -66,13 +66,11 @@ typedef struct s_envs
 
 typedef struct s_parsed
 {
-	char		*text;
-	char		*type;
-	struct		s_parsed	*next;
-	struct		s_parsed	*prev;
+	char			*text;
+	char			*type;
+	struct s_parsed	*next;
+	struct s_parsed	*prev;
 }	t_parsed;
-
-
 
 /* ************************************************************************** */
 /*				Global Var				      */
