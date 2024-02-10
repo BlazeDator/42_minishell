@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   find_char.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 09:24:42 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/08 04:41:59 by hescoval         ###   ########.fr       */
+/*   Created: 2024/02/08 04:55:04 by hescoval          #+#    #+#             */
+/*   Updated: 2024/02/08 05:00:42 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
-
-void	ft_minishell(void)
+int find_char(char c, char *find)
 {
-	char		*line;
-
-	while (1)
-	{
-		line = readline(PROMPT);
-		if (!line)
-			ft_handle_eof();
-		if (!line[0])
-			continue ;
-		add_history(line);
-		ft_parser(line);
-		free(line);
-	}
+	int	i;
+	
+	i = -1;
+	
+	while(find[++i])
+		if(find[i] == c)
+			return (1);
+	return (0);
 }

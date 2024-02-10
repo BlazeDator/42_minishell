@@ -3,32 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 14:30:43 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/10 18:08:49 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-int	ft_check_open_quotes(char *line);
-
-void	ft_parser(char *line)
+int	pipe_check(char *line)
 {
-	char	**temp_array;
+	int	i;
 
-	temp_array = ft_split(line, ' ');
-	if (!ft_check_open_quotes(line))
-		return ;
-	if (!strncmp(line, "exit", 4))
-		ft_exit();
-	if (!strncmp(line, "cat", 3))
-		ft_executer("/bin/cat");
-	if (!strncmp(line, "ls", 2))
-		ft_executer("/bin/ls");
-	if (!strncmp(temp_array[0], "echo", 4))
-		ft_exec_echo(&temp_array[1]);
+	i = -1;
+	while(line[++i])
+	{
+		if(line[i] == '|' && !quotes_open(line, i))
+		{
+			if(i == 0)
+				return(0);
+			if(line[i + 1] == '\0')
+				return(0);
+			if(i != 0 && (line[i - 1] == '|' || line[i + 1] == '|'))
+				return (0);
+		}
+	}
+	return (1);
+}
+
+int	redirect_basic_check(char *line)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	while(line[++i])
+	{
+		count = 0;
+		if(find_char(line[i], "><") && !quotes_open(line, i))
+		{
+			while(line[i] && find_char(line[i], "><"))
+			{
+				if(find_char(line[i + 1], "><") && line[i + 1] != line[i])
+					return (0);
+				count++;
+				i++;
+			}
+		}
+		if (count > 2)
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_check_open_quotes(char *line)
@@ -51,4 +77,38 @@ int	ft_check_open_quotes(char *line)
 	if (state && write(2, "Error: Open quotes\n", 19))
 		return (0);
 	return (1);
+}
+
+void	ft_parser(char *line)
+{
+	char	*help_me_god;
+	char	**splitted;
+	t_parsed *list;
+	
+	if (!ft_check_open_quotes(line))
+		return ;
+	if (!strncmp(line, "exit", 4))
+		exit(0);
+	ft_printf("\n");
+	if(!redirect_basic_check(line))
+	{
+		ft_printf("invalid redirect\n");
+		exit(1);
+	}
+	if(!pipe_check(line))
+	{
+		exit(1);
+		ft_printf("Unexpected near '|'\n");
+	}
+	help_me_god = pad_central(line);
+	splitted = split_quotes(help_me_god, ' ');
+	list = make_list(splitted);
+	t_parsed *helper = list;
+	while(helper)
+	{
+		ft_printf("ARGUMENT IS [%s]\n", helper->text);
+		ft_printf("TYPE IS [%s]\n_________________\n", helper->type);
+		helper = helper->next;
+	}
+	ft_printf("\n");
 }

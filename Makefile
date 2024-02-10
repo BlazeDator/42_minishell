@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pabernar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/03 11:29:26 by pabernar          #+#    #+#              #
-#    Updated: 2024/02/01 13:59:40 by pabernar         ###   ########.fr        #
+#    Updated: 2024/02/10 18:10:49 by hescoval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ api.c \
 signals/signal.c signals/signal_handlers.c \
 exit.c \
 builtins/echo.c
+parse_utils.c \
+parse_list.c
 SRCS_DIR = srcs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 OBJS_DIR = objs/
@@ -46,6 +48,7 @@ $(OBJS_DIR):
 	mkdir -p objs/builtins/
 clean:
 	$(RM) $(OBJS)
+	$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean: clean
 	$(RM) $(NAME)
