@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 14:26:17 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/10 17:23:02 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 /*				Structs					      */
 /* ************************************************************************** */
 /* *next -> if pipe. */
+
 typedef struct s_minish
 {
 	char			*command;
@@ -44,12 +45,35 @@ typedef struct s_minish
 	struct s_minish	*next;
 }					t_minish;
 
+typedef	enum s_special
+{
+	DEFAULT,
+	RD_OVERWRITE,
+	RD_APPEND,
+	RD_INPUT,
+	RD_HEREDOC,
+	PIPE,
+	COMMAND,
+	STRING
+}	t_special;
+
 typedef struct s_envs
 {
 	char			*key;
 	char			*value;
 	struct s_envs	*next;
 }					t_envs;
+
+typedef struct s_parsed
+{
+	char		*text;
+	char		*type;
+	struct		s_parsed	*next;
+	struct		s_parsed	*prev;
+}	t_parsed;
+
+
+
 /* ************************************************************************** */
 /*				Global Var				      */
 /* ************************************************************************** */
@@ -62,6 +86,13 @@ void	ft_minishell(void);
 /*				parser.c				      */
 /* ************************************************************************** */
 void	ft_parser(char *line);
+int		redirect_check(char *line);
+int		padding_needed(char *line, int i, int pad);
+void	pad(char *src, char *dest, int i, int j);
+int		pipe_checks(char *line);
+char	*pad_central(char *line);
+int		quotes_open(char *str, int target_index);
+t_parsed	*make_list(char **args);
 /* ************************************************************************** */
 /*				executer.c				      */
 /* ************************************************************************** */

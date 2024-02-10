@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   splits_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 08:51:56 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/09 21:47:09 by hescoval         ###   ########.fr       */
+/*   Created: 2024/02/09 22:03:59 by hescoval          #+#    #+#             */
+/*   Updated: 2024/02/09 22:06:20 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+ #include "libft.h"
 
-static size_t	ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char *s, char c)
 {
 	size_t	i;
 	size_t	words;
@@ -28,26 +28,30 @@ static size_t	ft_count_words(char const *s, char c)
 			reading = 1;
 			words += 1;
 		}
-		if (reading && s[i] == c)
+		if (reading && s[i] == c && !quotes_open(s, i))
 			reading = 0;
 		i++;
 	}
 	return (words);
 }
 
-static size_t	ft_word_len(char const *s, char c)
+static size_t    ft_word_len(char *orig, char const *s, char c, size_t i_index)
 {
-	size_t	count;
+	size_t    count;
 
 	count = 0;
-	while (s[count] && s[count] != c)
+	while (s[count])
+	{
+		if(s[count] == c && !quotes_open(orig, (int)i_index + (int)count))
+			break;
 		count++;
+	}
 	return (count);
 }
 
-static char	**ft_clean(char	**arr, size_t word)
+static char    **ft_clean(char    **arr, size_t word)
 {
-	size_t	i;
+	size_t    i;
 
 	i = 0;
 	while (i < word)
@@ -59,11 +63,11 @@ static char	**ft_clean(char	**arr, size_t word)
 	return (0);
 }
 
-static char	**ft_alloc_write(char const *s, char c, char **arr, size_t words)
+static char    **ft_alloc_write(char *s, char c, char **arr, size_t words)
 {
-	size_t	i;
-	size_t	j;
-	size_t	word;
+	size_t    i;
+	size_t    j;
+	size_t    word;
 
 	i = 0;
 	word = 0;
@@ -72,14 +76,14 @@ static char	**ft_alloc_write(char const *s, char c, char **arr, size_t words)
 		j = 0;
 		while (s[i] && s[i] == c)
 			i++;
-		arr[word] = malloc(ft_word_len(&s[i], c) + 1);
+		arr[word] = malloc(ft_word_len(s, &s[i], c, i) + 1);
 		if (!arr[word])
 			return (ft_clean(arr, word));
-		while (s[i] && s[i] != c)
+		while (s[i])
 		{
-			arr[word][j] = s[i];
-			j++;
-			i++;
+			if(s[i] == c && !quotes_open(s, (int)i))
+				break;
+			arr[word][j++] = s[i++];
 		}
 		arr[word][j] = '\0';
 		word++;
@@ -87,10 +91,10 @@ static char	**ft_alloc_write(char const *s, char c, char **arr, size_t words)
 	return (arr);
 }
 
-char	**ft_split(char const *s, char c)
+char    **split_quotes(char *s, char c)
 {
-	char	**arr;
-	size_t	words;
+	char    **arr;
+	size_t    words;
 
 	words = ft_count_words(s, c);
 	arr = malloc((words + 1) * sizeof(char *));
@@ -100,30 +104,4 @@ char	**ft_split(char const *s, char c)
 	if (words > 0)
 		arr = ft_alloc_write(s, c, arr, words);
 	return (arr);
-}
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	*str;
-	char	**arr;
-
-	str = "hello!";
-	arr = ft_split(str, ' ');
-	printf("%s", arr[0]);
-	str = "The cake is a lie!";
-	arr = ft_split(str, ' ');
-	printf("%s", arr[0]);
-	printf("%s", arr[1]);
-	printf("%s", arr[2]);
-	printf("%s", arr[3]);
-	printf("%s", arr[4]);
-	free(arr[0]);
-	free(arr[1]);
-	free(arr[2]);
-	free(arr[3]);
-	free(arr[4]);
-	free(arr);
-	return (0);
-}*/
+} 

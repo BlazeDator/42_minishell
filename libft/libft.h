@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:16:25 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 16:09:17 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/09 22:06:32 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+char	**split_quotes(char *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
@@ -91,11 +92,14 @@ int		ft_putnbr_unsigned(unsigned int n);
 int		ft_puthex(unsigned int n, int upper);
 int		ft_putpointer(unsigned long n);
 int		ft_putstr(char *str);
+int 	free_splits(char **line);
 
 char	*get_next_line(int fd);
 char	*ft_check_str(char *str, int charead);
 char	*ft_buffer_to_str(char *src, int charead);
+int		quotes_open(char *str, int target_index);
 
+int		find_char(char c, char *find);
 int		ft_str_has_newline(char *str);
 int		ft_buffer_is_empty(char *buffer);
 

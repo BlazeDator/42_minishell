@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pabernar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 12:04:58 by pabernar          #+#    #+#              #
-#    Updated: 2024/02/01 16:08:44 by pabernar         ###   ########.fr        #
+#    Updated: 2024/02/10 17:23:44 by hescoval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 ft_printf.c ft_putchar.c ft_putstr.c ft_typefinder.c ft_putnbr.c \
 ft_puthex.c ft_putpointer.c \
 \
-get_next_line.c get_next_line_utils.c
+get_next_line.c get_next_line_utils.c\
+free_splits.c find_char.c quotes_open.c splits_quotes.c \
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)
