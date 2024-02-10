@@ -23,7 +23,7 @@ envs.c \
 api.c \
 signals/signal.c signals/signal_handlers.c \
 exit.c \
-builtins/echo.c
+builtins/echo.c \
 parse_utils.c \
 parse_list.c
 SRCS_DIR = srcs/

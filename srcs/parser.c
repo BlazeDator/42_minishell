@@ -17,15 +17,15 @@ int	pipe_check(char *line)
 	int	i;
 
 	i = -1;
-	while(line[++i])
+	while (line[++i])
 	{
-		if(line[i] == '|' && !quotes_open(line, i))
+		if (line[i] == '|' && !quotes_open(line, i))
 		{
-			if(i == 0)
-				return(0);
-			if(line[i + 1] == '\0')
-				return(0);
-			if(i != 0 && (line[i - 1] == '|' || line[i + 1] == '|'))
+			if (i == 0)
+				return (0);
+			if (line[i + 1] == '\0')
+				return (0);
+			if (i != 0 && (line[i - 1] == '|' || line[i + 1] == '|'))
 				return (0);
 		}
 	}
@@ -38,14 +38,14 @@ int	redirect_basic_check(char *line)
 	int	count;
 
 	i = -1;
-	while(line[++i])
+	while (line[++i])
 	{
 		count = 0;
-		if(find_char(line[i], "><") && !quotes_open(line, i))
+		if (find_char(line[i], "><") && !quotes_open(line, i))
 		{
-			while(line[i] && find_char(line[i], "><"))
+			while (line[i] && find_char(line[i], "><"))
 			{
-				if(find_char(line[i + 1], "><") && line[i + 1] != line[i])
+				if (find_char(line[i + 1], "><") && line[i + 1] != line[i])
 					return (0);
 				count++;
 				i++;
@@ -81,21 +81,22 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-	char	*help_me_god;
-	char	**splitted;
-	t_parsed *list;
-	
+	t_parsed	*list;
+	t_parsed	*helper;
+	char		*help_me_god;
+	char		**splitted;
+
 	if (!ft_check_open_quotes(line))
 		return ;
 	if (!strncmp(line, "exit", 4))
 		exit(0);
 	ft_printf("\n");
-	if(!redirect_basic_check(line))
+	if (!redirect_basic_check(line))
 	{
 		ft_printf("invalid redirect\n");
 		exit(1);
 	}
-	if(!pipe_check(line))
+	if (!pipe_check(line))
 	{
 		exit(1);
 		ft_printf("Unexpected near '|'\n");
@@ -103,8 +104,8 @@ void	ft_parser(char *line)
 	help_me_god = pad_central(line);
 	splitted = split_quotes(help_me_god, ' ');
 	list = make_list(splitted);
-	t_parsed *helper = list;
-	while(helper)
+	helper = list;
+	while (helper)
 	{
 		ft_printf("ARGUMENT IS [%s]\n", helper->text);
 		ft_printf("TYPE IS [%s]\n_________________\n", helper->type);
