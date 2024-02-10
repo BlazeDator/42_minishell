@@ -104,7 +104,7 @@ void	ft_parser(char *line)
 	help_me_god = pad_central(line);
 	splitted = split_quotes(help_me_god, ' ');
 	list = make_list(splitted);
-	*helper = list;
+	helper = list;
 	while (helper)
 	{
 		ft_printf("ARGUMENT IS [%s]\n", helper->text);
