@@ -60,5 +60,9 @@ static void	ft_get_home_dir(t_envs *envs)
 		envs = envs->next;
 	}
 	if (!chdir(home_dir))
+	{
+		if (home_dir)
+			free(home_dir);
 		return ;
+	}
 }
