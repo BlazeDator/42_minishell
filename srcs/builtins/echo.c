@@ -50,6 +50,8 @@ static int	ft_check_echo_arguments(char *array_args)
 	int	i;
 
 	i = 0;
+	if (array_args[i] == '\"')
+		i++;
 	if (array_args[i] != '-')
 		return (0);
 	i++;
@@ -57,7 +59,7 @@ static int	ft_check_echo_arguments(char *array_args)
 		return (0);
 	while (array_args[i] == 'n')
 		i++;
-	if (array_args[i] != '\0')
+	if (array_args[i] != '\0' && array_args[i] != '\"')
 		return (0);
 	return (1);
 }

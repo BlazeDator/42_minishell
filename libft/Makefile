@@ -28,7 +28,7 @@ ft_printf.c ft_putchar.c ft_putstr.c ft_typefinder.c ft_putnbr.c \
 ft_puthex.c ft_putpointer.c \
 \
 get_next_line.c get_next_line_utils.c \
-free_splits.c find_char.c quotes_open.c splits_quotes.c 
+free_splits.c find_char.c quotes_open.c splits_quotes.c
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)

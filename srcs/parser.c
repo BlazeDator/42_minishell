@@ -81,16 +81,17 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-	t_parsed	*list;
-	t_parsed	*helper;
 	char		*help_me_god;
 	char		**splitted;
+/*	t_parsed	*list;
+	t_parsed	*helper;*/
 
 	if (!ft_check_open_quotes(line))
 		return ;
 	if (!strncmp(line, "exit", 4))
 		exit(0);
-	ft_printf("\n");
+	if (!strncmp(line, "ls", 2))
+		ft_executer("/bin/ls");
 	if (!redirect_basic_check(line))
 	{
 		ft_printf("invalid redirect\n");
@@ -103,13 +104,14 @@ void	ft_parser(char *line)
 	}
 	help_me_god = pad_central(line);
 	splitted = split_quotes(help_me_god, ' ');
-	list = make_list(splitted);
-	helper = list;
-	while (helper)
+	ft_exec_builtins(splitted);
+/*	list = make_list(splitted);
+	t_parsed *helper = list;
+	while(helper)
 	{
 		ft_printf("ARGUMENT IS [%s]\n", helper->text);
 		ft_printf("TYPE IS [%s]\n_________________\n", helper->type);
 		helper = helper->next;
 	}
-	ft_printf("\n");
+	ft_printf("\n");*/
 }
