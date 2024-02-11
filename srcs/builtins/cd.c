@@ -39,7 +39,11 @@ static void	ft_update_curr_dir(t_envs *envs, char *curr_dir)
 	while (envs)
 	{
 		if (!ft_strcmp(envs->key, "PWD"))
+		{
+			if (envs->value)
+				free(envs->value);
 			envs->value = ft_strdup(curr_dir);
+		}
 		envs = envs->next;
 	}
 }
