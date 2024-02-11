@@ -81,16 +81,17 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-
-/*	t_parsed	*list;
-	t_parsed	*helper;*/
 	char		*help_me_god;
 	char		**splitted;
+/*	t_parsed	*list;
+	t_parsed	*helper;*/
 
 	if (!ft_check_open_quotes(line))
 		return ;
 	if (!strncmp(line, "exit", 4))
 		exit(0);
+	if (!strncmp(line, "ls", 2))
+		ft_executer("/bin/ls");
 	if (!redirect_basic_check(line))
 	{
 		ft_printf("invalid redirect\n");

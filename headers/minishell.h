@@ -80,66 +80,66 @@ extern int	g_signal;
 /* ************************************************************************** */
 /*				minishell.c				      */
 /* ************************************************************************** */
-void	ft_minishell(void);
+void		ft_minishell(void);
 /* ************************************************************************** */
 /*				parser.c				      */
 /* ************************************************************************** */
-void	ft_parser(char *line);
-int		redirect_check(char *line);
-int		padding_needed(char *line, int i, int pad);
-void	pad(char *src, char *dest, int i, int j);
-int		pipe_checks(char *line);
-char	*pad_central(char *line);
-int		quotes_open(char *str, int target_index);
+void		ft_parser(char *line);
+int			redirect_check(char *line);
+int			padding_needed(char *line, int i, int pad);
+void		pad(char *src, char *dest, int i, int j);
+int			pipe_checks(char *line);
+char		*pad_central(char *line);
+int			quotes_open(char *str, int target_index);
 t_parsed	*make_list(char **args);
 /* ************************************************************************** */
 /*				executer.c				      */
 /* ************************************************************************** */
-void	ft_executer(char *path);
+void		ft_executer(char *path);
 /* ************************************************************************** */
 /*				envs.c					      */
 /* ************************************************************************** */
-t_envs	*ft_create_envs(void);
-t_envs	*ft_new_env(char *str);
-t_envs	*ft_add_env(t_envs *envs, t_envs *new);
-t_envs	*ft_del_env(t_envs *envs, char *key);
-t_envs	*ft_free_envs(t_envs *envs);
+t_envs		*ft_create_envs(void);
+t_envs		*ft_new_env(char *str);
+t_envs		*ft_add_env(t_envs *envs, t_envs *new);
+t_envs		*ft_del_env(t_envs *envs, char *key);
+t_envs		*ft_free_envs(t_envs *envs);
 /* ************************************************************************** */
 /*				api.c					      */
 /* ************************************************************************** */
-t_envs	*return_envs(t_envs *envs);
-char	**return_argv(char **argv);
+t_envs		*return_envs(t_envs *envs);
+char		**return_argv(char **argv);
 /* ************************************************************************** */
 /*				signal.c				      */
 /* ************************************************************************** */
-void	ft_init_signals(void);
-void	ft_ignore_signals(void);
-void	ft_restore_signals(void);
+void		ft_init_signals(void);
+void		ft_ignore_signals(void);
+void		ft_restore_signals(void);
 /* ************************************************************************** */
 /*				builtins.c				      */
 /* ************************************************************************** */
-void	ft_exec_builtins(char **args);
+void		ft_exec_builtins(char **args);
 /* ************************************************************************** */
 /*				echo.c				      */
 /* ************************************************************************** */
-void	ft_exec_echo(char **array_args);
+void		ft_exec_echo(char **array_args);
 /* ************************************************************************** */
 /*				cd.c				      */
 /* ************************************************************************** */
-void	ft_exec_cd(char *args, t_envs *envs);
+void		ft_exec_cd(char *args, t_envs *envs);
 /* ************************************************************************** */
 /*				pwd.c				      */
 /* ************************************************************************** */
-void	ft_exec_pwd(t_envs *envs);
+void		ft_exec_pwd(t_envs *envs);
 /* ************************************************************************** */
 /*				signal_handlers.c			      */
 /* ************************************************************************** */
-void	ft_handle_eof(void);
-void	ft_handle_sigint(int sig);
-void	ft_handle_sigint_ign(int sig);
-void	ft_handle_sigquit(int sig);
+void		ft_handle_eof(void);
+void		ft_handle_sigint(int sig);
+void		ft_handle_sigint_ign(int sig);
+void		ft_handle_sigquit(int sig);
 /* ************************************************************************** */
 /*				exit.c				      	      */
 /* ************************************************************************** */
-void	ft_exit(void);
+void		ft_exit(void);
 #endif
