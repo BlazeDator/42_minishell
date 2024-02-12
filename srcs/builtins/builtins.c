@@ -23,4 +23,12 @@ void	ft_exec_builtins(char **args)
 		ft_exec_cd(args[1], envs);
 	if (!ft_strcmp(args[0], "pwd") || !ft_strcmp(args[0], "\\pwd"))
 		ft_exec_pwd(envs);
+	if (!ft_strcmp(args[0], "export") || !ft_strcmp(args[0], "\\export"))
+		envs = ft_exec_export(envs, args[1]);
+	if (!ft_strcmp(args[0], "unset") || !ft_strcmp(args[0], "\\unset"))
+		envs = ft_exec_unset(envs, args[1]);
+	if (!ft_strcmp(args[0], "env") || !ft_strcmp(args[0], "\\env"))
+		ft_exec_env(envs);
+	if (!ft_strcmp(args[0], "exit") || !ft_strcmp(args[0], "\\exit"))
+		ft_exit();
 }

@@ -65,35 +65,6 @@ t_envs	*ft_add_env(t_envs *envs, t_envs *new)
 	return (0);
 }
 
-t_envs	*ft_del_env(t_envs *envs, char *key)
-{
-	t_envs	*start;
-	t_envs	*last;
-
-	start = envs;
-	last = envs;
-	if (!ft_strcmp(key, envs->key))
-		start = envs->next;
-	else
-	{
-		while (envs && ft_strcmp(key, envs->key))
-		{
-			last = envs;
-			envs = envs->next;
-		}
-		if (envs)
-			last->next = envs->next;
-	}
-	if (!envs)
-		return (start);
-	if (envs->key)
-		free(envs->key);
-	if (envs->value)
-		free(envs->value);
-	free(envs);
-	return (start);
-}
-
 t_envs	*ft_free_envs(t_envs *envs)
 {
 	t_envs	*temp;
