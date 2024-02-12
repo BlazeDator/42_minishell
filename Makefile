@@ -22,11 +22,14 @@ executer.c \
 envs.c \
 api.c \
 signals/signal.c signals/signal_handlers.c \
-exit.c \
 builtins/builtins.c \
 builtins/echo.c \
 builtins/cd.c \
 builtins/pwd.c \
+builtins/export.c \
+builtins/unset.c \
+builtins/env.c \
+builtins/exit.c \
 parse_utils.c \
 parse_list.c
 SRCS_DIR = srcs/

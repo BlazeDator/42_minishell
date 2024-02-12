@@ -88,8 +88,6 @@ void	ft_parser(char *line)
 
 	if (!ft_check_open_quotes(line))
 		return ;
-	if (!strncmp(line, "exit", 4))
-		exit(0);
 	if (!strncmp(line, "ls", 2))
 		ft_executer("/bin/ls");
 	if (!redirect_basic_check(line))

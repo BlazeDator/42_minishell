@@ -12,29 +12,33 @@
 
 #include "../../headers/minishell.h"
 
-static void	ft_update_curr_dir(t_envs *envs, char *curr_dir);
+static void	ft_update_curr_dir(t_envs *envs, char *curr_dir, char *old_pwd);
 static void	ft_get_home_dir(t_envs *envs);
 
 void	ft_exec_cd(char *args, t_envs *envs)
 {
 	char	curr_dir[PATH_MAX];
+	char	old_pwd[PATH_MAX];
 
-	if (args == NULL || !ft_strcmp(args, "~"))
+	if (getcwd(old_pwd, sizeof(old_pwd)))
 	{
-		ft_get_home_dir(envs);
-		if (getcwd(curr_dir, sizeof(curr_dir)))
-			ft_update_curr_dir(envs, curr_dir);
+		if (args == NULL || !ft_strcmp(args, "~"))
+		{
+			ft_get_home_dir(envs);
+			if (getcwd(curr_dir, sizeof(curr_dir)))
+				ft_update_curr_dir(envs, curr_dir, old_pwd);
+		}
+		else if (!chdir(args))
+		{
+			if (getcwd(curr_dir, sizeof(curr_dir)))
+				ft_update_curr_dir(envs, curr_dir, old_pwd);
+		}
+		else
+			printf("cd: %s: No such file or directory\n", args);
 	}
-	else if (!chdir(args))
-	{
-		if (getcwd(curr_dir, sizeof(curr_dir)))
-			ft_update_curr_dir(envs, curr_dir);
-	}
-	else
-		printf("cd: %s: No such file or directory\n", args);
 }
 
-static void	ft_update_curr_dir(t_envs *envs, char *curr_dir)
+static void	ft_update_curr_dir(t_envs *envs, char *curr_dir, char *old_pwd)
 {
 	while (envs)
 	{
@@ -43,6 +47,12 @@ static void	ft_update_curr_dir(t_envs *envs, char *curr_dir)
 			if (envs->value)
 				free(envs->value);
 			envs->value = ft_strdup(curr_dir);
+		}
+		if (!ft_strcmp(envs->key, "OLDPWD"))
+		{
+			if (envs->value)
+				free(envs->value);
+			envs->value = ft_strdup(old_pwd);
 		}
 		envs = envs->next;
 	}
