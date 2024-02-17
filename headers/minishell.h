@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/17 15:26:11 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:04:30 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,11 @@ void		ft_handle_sigquit(int sig);
  * @return char * with the current directory memory allocated.
 */
 char	*ft_get_dir(void);
+
+/* ************************************************************************** */
+/*									split_token.c							*/
+/* ************************************************************************** */
+
+char	**ft_split_token(char *line);
 
 #endif
