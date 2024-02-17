@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:00:28 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 15:29:37 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/17 20:41:43 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ t_envs	*ft_create_envs(void)
 		envs = ft_add_env(envs, ft_new_env(*environ));
 		environ++;
 	}
+	/*
+	envs = ft_add_env(envs, ft_new_env("LINES=1"));
+	envs = ft_add_env(envs, ft_new_env("COLUMNS=1"));
+	*/
 	return (envs);
 }
 
