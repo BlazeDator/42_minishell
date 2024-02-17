@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/10 18:08:49 by hescoval         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:19:13 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-	char		*help_me_god;
 	char		**splitted;
 /*	t_parsed	*list;
 	t_parsed	*helper;*/
@@ -100,8 +99,7 @@ void	ft_parser(char *line)
 		exit(1);
 		ft_printf("Unexpected near '|'\n");
 	}
-	help_me_god = pad_central(line);
-	splitted = split_quotes(help_me_god, ' ');
+	splitted = ft_split_token(line);
 	ft_exec_builtins(splitted);
 /*	list = make_list(splitted);
 	t_parsed *helper = list;
