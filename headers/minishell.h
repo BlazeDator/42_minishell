@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/10 17:23:02 by hescoval         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:26:11 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /* ************************************************************************** */
 /*				Libraries				      */
 /* ************************************************************************** */
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -25,6 +26,15 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <linux/limits.h>
+
+# include <sys/types.h>
+# include <dirent.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <errno.h>
+# include <curses.h>
+# include <term.h>
+# include <termios.h>
 
 # include "../libft/libft.h"
 /* ************************************************************************** */
@@ -145,7 +155,12 @@ void		ft_exec_env(t_envs *envs);
 /* ************************************************************************** */
 /*				exit.c				      	      */
 /* ************************************************************************** */
+
+/**
+ * @brief Free the memory and exit the program.
+*/
 void		ft_exit(void);
+
 /* ************************************************************************** */
 /*				signal_handlers.c			      */
 /* ************************************************************************** */
@@ -153,5 +168,14 @@ void		ft_handle_eof(void);
 void		ft_handle_sigint(int sig);
 void		ft_handle_sigint_ign(int sig);
 void		ft_handle_sigquit(int sig);
+/* ************************************************************************** */
+/*									directory.c								*/
+/* ************************************************************************** */
+
+/**
+ * @brief Get the current directory.
+ * @return char * with the current directory memory allocated.
+*/
+char	*ft_get_dir(void);
 
 #endif

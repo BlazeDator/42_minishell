@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:24:42 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/08 04:41:59 by hescoval         ###   ########.fr       */
+/*   Updated: 2024/02/17 20:44:19 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 void	ft_minishell(void)
 {
-	char		*line;
+	char	*line;
+	char	*prompt;
+	t_envs	*envs;
 
+	envs = NULL;
 	while (1)
 	{
-		line = readline(PROMPT);
+		prompt = ft_get_dir();
+		line = readline(prompt);
+		free(prompt);
+		if (!envs)
+			envs = return_envs(ft_create_envs());
 		if (!line)
 			ft_handle_eof();
 		if (!line[0])
