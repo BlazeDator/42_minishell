@@ -6,7 +6,7 @@
 #    By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/03 11:29:26 by pabernar          #+#    #+#              #
-#    Updated: 2024/02/17 23:06:23 by txisto-d         ###   ########.fr        #
+#    Updated: 2024/02/19 17:00:02 by txisto-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ builtins/exit.c \
 parse_utils.c \
 parse_list.c \
 directory.c \
-split_token.c
+split_token.c \
+expander.c \
+treat_token.c
 SRCS_DIR = srcs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 OBJS_DIR = objs/

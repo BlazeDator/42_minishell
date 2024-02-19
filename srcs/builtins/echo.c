@@ -80,7 +80,7 @@ static void	ft_check_quotes_echo(char *array_args)
 		else if (state && *array_args == quote)
 			state = 0;
 		else
-			printf("%c", *array_args);
+			ft_printf("%c", *array_args);
 		array_args++;
 	}
 }
@@ -88,13 +88,13 @@ static void	ft_check_quotes_echo(char *array_args)
 static void	ft_print_echo_space(char *array_args)
 {
 	if (array_args)
-		printf(" ");
+		ft_printf(" ");
 	return ;
 }
 
 static void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
-		printf("\n");
+		ft_printf("\n");
 	return ;
 }

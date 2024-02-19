@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/17 23:19:13 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:59:31 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,8 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-	char		**splitted;
-/*	t_parsed	*list;
-	t_parsed	*helper;*/
+	t_parsed	*tokens;
+	t_parsed	*helper;
 
 	if (!ft_check_open_quotes(line))
 		return ;
@@ -99,15 +98,15 @@ void	ft_parser(char *line)
 		exit(1);
 		ft_printf("Unexpected near '|'\n");
 	}
-	splitted = ft_split_token(line);
-	ft_exec_builtins(splitted);
-/*	list = make_list(splitted);
-	t_parsed *helper = list;
+	tokens = ft_split_token(line);
+	ft_treat_token(tokens, line);
+	helper = tokens;
 	while(helper)
 	{
 		ft_printf("ARGUMENT IS [%s]\n", helper->text);
 		ft_printf("TYPE IS [%s]\n_________________\n", helper->type);
 		helper = helper->next;
 	}
-	ft_printf("\n");*/
+	ft_printf("\n");
+	//ft_exec_builtins(splitted);
 }
