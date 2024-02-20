@@ -6,16 +6,14 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:12:17 by txisto-d          #+#    #+#             */
-/*   Updated: 2024/02/19 15:50:09 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:17:00 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
 static int	ft_check_quotes_and_exp(char *str);
-static int	ft_before_exp(char *str);
 static void	ft_expanding(t_parsed *tokens, char *new, char *tmp, t_envs *envs);
-static int	ft_key_len(char *str);
 
 t_parsed	*ft_expand_variables(t_parsed *tokens)
 {
@@ -43,11 +41,13 @@ static void	ft_expanding(t_parsed *tokens, char *new, char *tmp, t_envs *envs)
 {
 	int		klen;
 	int		before_len;
+	char	*point;
 
 	before_len = ft_before_exp(tokens->text);
 	klen = ft_key_len(tokens->text);
 	tmp = ft_substr(tokens->text, 0, before_len);
-	while (envs && ft_strnstr(tokens->text, envs->key, before_len + klen + 1) == NULL)
+	point = tokens->text + before_len + 1;
+	while (envs && ft_strncmp(point, envs->key, klen) != 0)
 		envs = envs->next;
 	if (envs)
 	{
@@ -61,20 +61,13 @@ static void	ft_expanding(t_parsed *tokens, char *new, char *tmp, t_envs *envs)
 		free(tmp);
 	}
 	else
-	{
-		klen = ft_key_len(tokens->text);
-		klen = ft_before_exp(tokens->text) + ft_key_len(tokens->text) + 1;
-		new = ft_strjoin(tmp, (tokens->text + klen));
-		free(tmp);
-		free(tokens->text);
-		tokens->text = new;
-	}
+		ft_farfaraway(tokens, klen, &new, &tmp);
 }
 
-static int	ft_key_len(char *str)
+int	ft_key_len(char *str)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -84,16 +77,15 @@ static int	ft_key_len(char *str)
 	{
 		i++;
 	}
-	while (str[i] && str[i] != ' ' && str[i] != '\t'
-		&& str[i] != '\'' && str[i] != '\"' && str[i] != '$')
-		{
-			i++;
-			j++;
-		}
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		i++;
+		j++;
+	}
 	return (j);
 }
 
-static int	ft_before_exp(char *str)
+int	ft_before_exp(char *str)
 {
 	int	i;
 
