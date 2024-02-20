@@ -81,3 +81,28 @@ t_envs	*ft_free_envs(t_envs *envs)
 	}
 	return (0);
 }
+
+char	**ft_array_envs(t_envs *envs)
+{
+	t_envs	*start;
+	int		len;
+	char	*temp;
+	char	**arr;
+
+	len = 1;
+	start = envs;
+	while (envs && len++)
+		envs = envs->next;
+	arr = malloc(sizeof(char *) * len);
+	len = 0;
+	while (start)
+	{
+		temp = ft_strjoin(start->key, "=");
+		arr[len] = ft_strjoin(temp, start->value);
+		free(temp);
+		len++;
+		start = start->next;
+	}
+	arr[len] = 0;
+	return (arr);
+}
