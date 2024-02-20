@@ -33,10 +33,9 @@ t_envs	*ft_exec_unset(t_envs *envs, char *key)
 	}
 	if (!envs)
 		return (start);
-	if (envs->key)
-		free(envs->key);
-	if (envs->value)
-		free(envs->value);
+	free(envs->key);
+	free(envs->value);
 	free(envs);
+	return_envs(start);
 	return (start);
 }
