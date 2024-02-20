@@ -84,21 +84,21 @@ static void	ft_token_list(char *line, t_parsed *lst, int *i)
 	free(aux);
 }
 
-static char	*find_type(char *arg)
+t_special	find_type(char *arg)
 {
 	if (!arg)
 		return (0);
 	if (ft_strcmp(arg, ">") == 0)
-		return (ft_strdup("RD_OVERWRITE"));
+		return (RD_OVERWRITE);
 	if (ft_strcmp(arg, ">>") == 0)
-		return (ft_strdup("RD_APPEND"));
+		return (RD_APPEND);
 	if (ft_strcmp(arg, "<") == 0)
-		return (ft_strdup("RD_INPUT"));
+		return (RD_INPUT);
 	if (ft_strcmp(arg, "<<") == 0)
-		return (ft_strdup("RD_HEREDOC"));
+		return (RD_HEREDOC);
 	if (ft_strcmp(arg, "|") == 0)
-		return (ft_strdup("PIPE"));
-	return (0);
+		return (PIPE);
+	return (STRING);
 }
 
 t_parsed	*ft_split_token(char *line)
@@ -113,18 +113,11 @@ t_parsed	*ft_split_token(char *line)
 		exit(1);
 	head = aux;
 	ft_token_list(line, aux, &i);
-	aux->type = ft_strdup("COMMAND");
+	aux->type = find_type(aux->text);
 	aux = aux->next;
 	while (aux)
 	{
 		aux->type = find_type(aux->text);
-		if (aux->type == NULL)
-		{
-			if (ft_strcmp(aux->prev->type, "PIPE") != 0)
-				aux->type = ft_strdup("STRING");
-			else
-				aux->type = ft_strdup("COMMAND");
-		}
 		aux = aux->next;
 	}
 	return (head);
