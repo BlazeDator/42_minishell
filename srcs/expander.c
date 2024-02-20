@@ -17,24 +17,24 @@ static void	ft_expanding(t_parsed *tokens, char *new, char *tmp, t_envs *envs);
 
 t_parsed	*ft_expand_variables(t_parsed *tokens)
 {
-    char		*new;
+	char		*new;
 	char		*tmp;
 	t_envs		*envs;
 	t_parsed	*aux;
 
 	aux = tokens;
-    while (aux && aux->text)
-    {
-        while (ft_check_quotes_and_exp(aux->text))
-        {
+	while (aux && aux->text)
+	{
+		while (ft_check_quotes_and_exp(aux->text))
+		{
 			envs = return_envs(0);
 			new = NULL;
 			tmp = NULL;
 			ft_expanding(aux, new, tmp, envs);
-        }
+		}
 		aux = aux->next;
-    }
-    return (tokens);
+	}
+	return (tokens);
 }
 
 static void	ft_expanding(t_parsed *tokens, char *new, char *tmp, t_envs *envs)
@@ -95,20 +95,20 @@ int	ft_before_exp(char *str)
 	return (i);
 }
 
-static int        ft_check_quotes_and_exp(char *str)
+static int	ft_check_quotes_and_exp(char *str)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    if (str[0] == '\'')
-        return (0);
-    while(str[i])
-    {
-        if (str[i] == '$' && !str[i + 1])
-            return (0);
-        else if (str[i] == '$')
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	if (str[0] == '\'')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '$' && !str[i + 1])
+			return (0);
+		else if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
 }

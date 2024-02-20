@@ -18,9 +18,9 @@ static void	ft_print_new_line(int flag_nl);
 
 void	ft_exec_echo(t_parsed *tokens)
 {
-	t_parsed *aux;
-	int	flag_nl;
-	int	option;
+	t_parsed	*aux;
+	int			flag_nl;
+	int			option;
 
 	aux = tokens;
 	option = 1;
