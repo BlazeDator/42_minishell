@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:28:12 by txisto-d          #+#    #+#             */
-/*   Updated: 2024/02/17 23:09:30 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:30:46 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,60 +55,77 @@ static size_t	ft_token_len(char *str, int *start)
 	return (len);
 }
 
-static void	ft_token_list(char *line, t_list *lst, int *i)
+static void	ft_token_list(char *line, t_parsed *lst, int *i)
 {
-	size_t	len;
-	int		start;
+	size_t		len;
+	int			start;
+	t_parsed	*aux;
 
 	start = 0;
 	len = 0;
+	aux = lst;
 	while (line[start])
 	{
 		len = ft_token_len(line, &start);
 		start -=len;
-		lst->content = ft_substr(line, start, len);
+		aux->text = ft_substr(line, start, len);
 		start += len;
-		lst->next = ft_calloc(1, sizeof(t_list));
-		if (!lst->next)
+		aux->next = ft_calloc(1, sizeof(t_parsed));
+		aux->next->prev = aux;
+		if (!aux->next)
 			exit(1);
-		lst = lst->next;
+		aux = aux->next;
 		(*i)++;
+		if ((line[start] == ' ' || line[start] == '\t')
+			&& line[start + 1] == '\0')
+			start++;
 	}
-	lst->next = NULL;
+	aux->prev->next = NULL;
+	free(aux);
 }
 
-static char	**ft_token_array(t_list *lst, int i)
+static char	*find_type(char *arg)
 {
-	char	**tokens;
-	int		j;
-
-	tokens = ft_calloc(i + 1, sizeof(char *));
-	if (!tokens)
-		exit(1);
-	j = 0;
-	while (lst)
-	{
-		tokens[j] = lst->content;
-		lst = lst->next;
-		j++;
-	}
-	return (tokens);
+	if (!arg)
+		return (0);
+	if (ft_strcmp(arg, ">") == 0)
+		return (ft_strdup("RD_OVERWRITE"));
+	if (ft_strcmp(arg, ">>") == 0)
+		return (ft_strdup("RD_APPEND"));
+	if (ft_strcmp(arg, "<") == 0)
+		return (ft_strdup("RD_INPUT"));
+	if (ft_strcmp(arg, "<<") == 0)
+		return (ft_strdup("RD_HEREDOC"));
+	if (ft_strcmp(arg, "|") == 0)
+		return (ft_strdup("PIPE"));
+	return (0);
 }
 
-char	**ft_split_token(char *line)
+t_parsed	*ft_split_token(char *line)
 {
-	t_list	*lst;
-	t_list	*return_lst;
-	char 	**tokens;
-	int		i;
+	t_parsed	*aux;
+	t_parsed	*head;
+	int			i;
 
-	lst = NULL;
 	i = 0;
-	lst = ft_calloc(1, sizeof(t_list));
-	if (!lst)
+	aux = ft_calloc(1, sizeof(t_parsed));
+	if (!aux)
 		exit(1);
-	return_lst = lst;
-	ft_token_list(line, lst, &i);
-	tokens = ft_token_array(return_lst, i);
-	return (tokens);
+	head = aux;
+	ft_token_list(line, aux, &i);
+	aux->type = ft_strdup("COMMAND");
+	aux = aux->next;
+	while (aux)
+	{
+		aux->type = find_type(aux->text);
+		if (aux->type == NULL)
+		{
+			if (ft_strcmp(aux->prev->type, "PIPE") != 0)
+				aux->type = ft_strdup("STRING");
+			else
+				aux->type = ft_strdup("COMMAND");
+		}
+		aux = aux->next;
+	}
+	return (head);
 }

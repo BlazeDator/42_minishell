@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 15:19:48 by hescoval          #+#    #+#             */
-/*   Updated: 2024/02/09 22:11:04 by hescoval         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:16:15 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*pad_central(char *line)
 
 	extra = padding_needed(line, 0, 0);
 	if (extra == 0)
-		return (line);
+		return (ft_strdup(line));
 	ret = (char *)ft_calloc(1, ft_strlen(line) + extra + 1);
 	pad(line, ret, 0, 0);
 	return (ret);
@@ -62,4 +62,14 @@ int	padding_needed(char *line, int i, int pad)
 		i++;
 	}
 	return (pad);
+}
+
+void	ft_farfaraway(t_parsed *tokens, int klen, char **new, char **tmp)
+{
+	klen = ft_key_len(tokens->text);
+	klen = ft_before_exp(tokens->text) + ft_key_len(tokens->text) + 1;
+	*new = ft_strjoin(*tmp, (tokens->text + klen));
+	free(*tmp);
+	free(tokens->text);
+	tokens->text = *new;
 }

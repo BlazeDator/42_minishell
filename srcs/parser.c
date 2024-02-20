@@ -6,11 +6,13 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/17 23:19:13 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:41:07 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+static void	ft_free_tokens(t_parsed *tokens);
 
 int	pipe_check(char *line)
 {
@@ -81,9 +83,8 @@ int	ft_check_open_quotes(char *line)
 
 void	ft_parser(char *line)
 {
-	char		**splitted;
-/*	t_parsed	*list;
-	t_parsed	*helper;*/
+	t_parsed	*tokens;
+	char		*help_hugo_god;
 
 	if (!ft_check_open_quotes(line))
 		return ;
@@ -96,18 +97,27 @@ void	ft_parser(char *line)
 	}
 	if (!pipe_check(line))
 	{
-		exit(1);
 		ft_printf("Unexpected near '|'\n");
+		exit(1);
 	}
-	splitted = ft_split_token(line);
-	ft_exec_builtins(splitted);
-/*	list = make_list(splitted);
-	t_parsed *helper = list;
-	while(helper)
+	help_hugo_god = pad_central(line);
+	tokens = ft_split_token(help_hugo_god);
+	ft_treat_token(tokens, help_hugo_god);
+	free(help_hugo_god);
+	ft_exec_builtins(tokens);
+	ft_free_tokens(tokens);
+}
+
+static void	ft_free_tokens(t_parsed *tokens)
+{
+	t_parsed	*tmp;
+
+	while (tokens)
 	{
-		ft_printf("ARGUMENT IS [%s]\n", helper->text);
-		ft_printf("TYPE IS [%s]\n_________________\n", helper->type);
-		helper = helper->next;
+		tmp = tokens->next;
+		free(tokens->text);
+		free(tokens->type);
+		free(tokens);
+		tokens = tmp;
 	}
-	ft_printf("\n");*/
 }
