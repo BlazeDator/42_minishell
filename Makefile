@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+         #
+#    By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/03 11:29:26 by pabernar          #+#    #+#              #
-#    Updated: 2024/02/19 17:00:02 by txisto-d         ###   ########.fr        #
+#    Updated: 2024/02/20 14:47:47 by hescoval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ builtins/unset.c \
 builtins/env.c \
 builtins/exit.c \
 parse_utils.c \
-parse_list.c \
 directory.c \
 split_token.c \
 expander.c \

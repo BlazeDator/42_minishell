@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 15:19:48 by hescoval          #+#    #+#             */
-/*   Updated: 2024/02/20 13:16:15 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:14:23 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+int	valid_tokens(t_parsed *tokens)
+{
+	char *strings[] = {"DEFAULT","RD_OVERWRITE","RD_APPEND","RD_INPUT","RD_HEREDOC","PIPE","STRING"};
+	int	type;
+	
+	while (tokens)
+	{
+		printf("Token text is %s and type is %s\n", tokens->text, strings[tokens->type]);
+		type = tokens->type;
+		if(type == PIPE)
+		{
+			if(!tokens->next || !tokens->prev || tokens->next->type == PIPE)
+				return (printf("Invalid Pipe\n"), 0);
+		}
+		tokens = tokens->next;
+	}
+	return (0);
+}
 
 void	pad(char *src, char *dest, int i, int j)
 {

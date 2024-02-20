@@ -3,17 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/20 13:41:07 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:14:30 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-static void	ft_free_tokens(t_parsed *tokens);
+static void	ft_free_tokens(t_parsed *tokens)
+{
+	t_parsed	*tmp;
 
+	while (tokens)
+	{
+		tmp = tokens->next;
+		free(tokens->text);
+		free(tokens);
+		tokens = tmp;
+	}
+}
 int	pipe_check(char *line)
 {
 	int	i;
@@ -88,36 +98,20 @@ void	ft_parser(char *line)
 
 	if (!ft_check_open_quotes(line))
 		return ;
-	if (!strncmp(line, "ls", 2))
-		ft_executer("/bin/ls");
+	if (!pipe_check(line))
+	{
+		printf("Invalid Pipe\n");
+		return ;
+	}
 	if (!redirect_basic_check(line))
 	{
 		ft_printf("invalid redirect\n");
-		exit(1);
-	}
-	if (!pipe_check(line))
-	{
-		ft_printf("Unexpected near '|'\n");
-		exit(1);
+		return ;
 	}
 	help_hugo_god = pad_central(line);
 	tokens = ft_split_token(help_hugo_god);
 	ft_treat_token(tokens, help_hugo_god);
-	free(help_hugo_god);
-	ft_exec_builtins(tokens);
+	valid_tokens(tokens);
+	/* ft_exec_builtins(tokens); */
 	ft_free_tokens(tokens);
-}
-
-static void	ft_free_tokens(t_parsed *tokens)
-{
-	t_parsed	*tmp;
-
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free(tokens->text);
-		free(tokens->type);
-		free(tokens);
-		tokens = tmp;
-	}
 }

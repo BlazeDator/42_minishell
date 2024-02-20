@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hescoval <hescoval@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/20 13:40:54 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:55:33 by hescoval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef enum s_special
 	RD_INPUT,
 	RD_HEREDOC,
 	PIPE,
-	COMMAND,
 	STRING
 }					t_special;
 
@@ -76,7 +75,7 @@ typedef struct s_envs
 typedef struct s_parsed
 {
 	char			*text;
-	char			*type;
+	t_special		type;
 	struct s_parsed	*next;
 	struct s_parsed	*prev;
 	int				unite_with_next;
@@ -196,5 +195,5 @@ int					ft_key_len(char *str);
 /*									treat_token.c							*/
 /* ************************************************************************** */
 void				ft_treat_token(t_parsed *token, char *line);
-
+int					valid_tokens(t_parsed *tokens);
 #endif
