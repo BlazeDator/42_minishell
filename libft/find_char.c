@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int find_char(char c, char *find)
+int	find_char(char c, char *find)
 {
 	int	i;
-	
+
 	i = -1;
-	
-	while(find[++i])
-		if(find[i] == c)
+	while (find[++i])
+		if (find[i] == c)
 			return (1);
 	return (0);
 }

@@ -23,14 +23,14 @@ void	ft_exec_builtins(t_parsed *tokens)
 		ft_exec_cd(tokens->next->text, envs);
 	if (!ft_strcmp(tokens->text, "pwd") || !ft_strcmp(tokens->text, "\\pwd"))
 		ft_exec_pwd(envs);
-	if (!ft_strcmp(tokens->text, "export") || !ft_strcmp(tokens->text, "\\export"))
+	if (!ft_strcmp(tokens->text, "export") || !ft_strcmp(tokens->text,
+			"\\export"))
 		envs = ft_exec_export(envs, tokens->next->text);
-	if (!ft_strcmp(tokens->text, "unset") || !ft_strcmp(tokens->text, "\\unset"))
+	if (!ft_strcmp(tokens->text, "unset") || !ft_strcmp(tokens->text,
+			"\\unset"))
 		envs = ft_exec_unset(envs, tokens->next->text);
 	if (!ft_strcmp(tokens->text, "env") || !ft_strcmp(tokens->text, "\\env"))
 		ft_exec_env(envs);
 	if (!ft_strcmp(tokens->text, "exit") || !ft_strcmp(tokens->text, "\\exit"))
 		ft_exit();
-
-	
 }

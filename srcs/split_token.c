@@ -40,8 +40,8 @@ static size_t	ft_token_len(char *str, int *start)
 	i = *start;
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
-	while (str[i] && str[i] != ' ' && str[i] != '\t'
-		&& str[i] != '\'' && str[i] != '\"')
+	while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '\''
+		&& str[i] != '\"')
 	{
 		len++;
 		i++;
@@ -67,7 +67,7 @@ static void	ft_token_list(char *line, t_parsed *lst, int *i)
 	while (line[start])
 	{
 		len = ft_token_len(line, &start);
-		start -=len;
+		start -= len;
 		aux->text = ft_substr(line, start, len);
 		start += len;
 		aux->next = ft_calloc(1, sizeof(t_parsed));

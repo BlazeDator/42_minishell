@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int free_splits(char **line)
+int	free_splits(char **line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!line)

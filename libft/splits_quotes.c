@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "libft.h"
+#include "libft.h"
 
 static size_t	ft_count_words(char *s, char c)
 {
@@ -35,23 +35,23 @@ static size_t	ft_count_words(char *s, char c)
 	return (words);
 }
 
-static size_t    ft_word_len(char *orig, char const *s, char c, size_t i_index)
+static size_t	ft_word_len(char *orig, char const *s, char c, size_t i_index)
 {
-	size_t    count;
+	size_t	count;
 
 	count = 0;
 	while (s[count])
 	{
-		if(s[count] == c && !quotes_open(orig, (int)i_index + (int)count))
-			break;
+		if (s[count] == c && !quotes_open(orig, (int)i_index + (int)count))
+			break ;
 		count++;
 	}
 	return (count);
 }
 
-static char    **ft_clean(char    **arr, size_t word)
+static char	**ft_clean(char **arr, size_t word)
 {
-	size_t    i;
+	size_t	i;
 
 	i = 0;
 	while (i < word)
@@ -63,11 +63,11 @@ static char    **ft_clean(char    **arr, size_t word)
 	return (0);
 }
 
-static char    **ft_alloc_write(char *s, char c, char **arr, size_t words)
+static char	**ft_alloc_write(char *s, char c, char **arr, size_t words)
 {
-	size_t    i;
-	size_t    j;
-	size_t    word;
+	size_t	i;
+	size_t	j;
+	size_t	word;
 
 	i = 0;
 	word = 0;
@@ -81,8 +81,8 @@ static char    **ft_alloc_write(char *s, char c, char **arr, size_t words)
 			return (ft_clean(arr, word));
 		while (s[i])
 		{
-			if(s[i] == c && !quotes_open(s, (int)i))
-				break;
+			if (s[i] == c && !quotes_open(s, (int)i))
+				break ;
 			arr[word][j++] = s[i++];
 		}
 		arr[word][j] = '\0';
@@ -91,10 +91,10 @@ static char    **ft_alloc_write(char *s, char c, char **arr, size_t words)
 	return (arr);
 }
 
-char    **split_quotes(char *s, char c)
+char	**split_quotes(char *s, char c)
 {
-	char    **arr;
-	size_t    words;
+	char	**arr;
+	size_t	words;
 
 	words = ft_count_words(s, c);
 	arr = malloc((words + 1) * sizeof(char *));
@@ -104,4 +104,4 @@ char    **split_quotes(char *s, char c)
 	if (words > 0)
 		arr = ft_alloc_write(s, c, arr, words);
 	return (arr);
-} 
+}

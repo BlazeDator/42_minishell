@@ -15,7 +15,7 @@
 static char	*ft_remove_quotes(char *str);
 static void	ft_treating(t_parsed *tokens);
 static void	ft_check_unite(t_parsed *tokens, const char *line);
-static void ft_unite(t_parsed *token);
+static void	ft_unite(t_parsed *token);
 
 void	ft_treat_token(t_parsed *tokens, char *line)
 {
@@ -24,7 +24,7 @@ void	ft_treat_token(t_parsed *tokens, char *line)
 	ft_treating(tokens);
 }
 
-static void   ft_treating(t_parsed *tokens)
+static void	ft_treating(t_parsed *tokens)
 {
 	t_parsed	*aux;
 
@@ -46,7 +46,7 @@ static void   ft_treating(t_parsed *tokens)
 	}
 }
 
-static void ft_unite(t_parsed *token)
+static void	ft_unite(t_parsed *token)
 {
 	t_parsed	*aux;
 	t_parsed	*to_free;
@@ -96,7 +96,7 @@ static void	ft_check_unite(t_parsed *tokens, const char *line)
 		if (*tmp != '\0' && *tmp != ' ' && *tmp != '\t')
 			aux->unite_with_next = 1;
 		else
-		aux->unite_with_next = 0;
+			aux->unite_with_next = 0;
 		while (*tmp == ' ' || *tmp == '\t')
 			tmp++;
 		aux = aux->next;

@@ -14,25 +14,25 @@
 
 int	quotes_open(char *str, int target_index)
 {
-	int open;
+	int		open;
 	char	wanted_quote;
 	int		i;
 
 	open = 0;
 	i = 0;
 	wanted_quote = -1;
-	while(str[i])
+	while (str[i])
 	{
-		if(find_char(str[i], "\"\'") && !open)
+		if (find_char(str[i], "\"\'") && !open)
 		{
 			open = 1;
 			wanted_quote = str[i++];
 		}
-		if(str[i] && open && str[i] == wanted_quote)
+		if (str[i] && open && str[i] == wanted_quote)
 			open = 0;
-		if(i == target_index)
-			return(open);
+		if (i == target_index)
+			return (open);
 		i++;
 	}
-	return(0);
+	return (0);
 }
