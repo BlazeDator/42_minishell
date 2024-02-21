@@ -37,5 +37,5 @@ void	ft_exec_builtins(t_parsed *tokens)
 		|| !ft_strcmp(tokens->text, "\\exit"))
 		ft_exit(tokens);
 	else
-		ft_check_command(envs, tokens);
+		ft_find_path(tokens, envs);
 }
