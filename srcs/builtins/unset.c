@@ -12,18 +12,25 @@
 
 #include "../../headers/minishell.h"
 
-t_envs	*ft_exec_unset(t_envs *envs, char *key)
+static t_envs	*ft_finish(t_envs *envs, t_envs *start, char *key);
+
+t_envs	*ft_exec_unset(t_envs *envs, t_parsed *tokens)
 {
 	t_envs	*start;
 	t_envs	*last;
+	char	*key;
 
 	start = envs;
 	last = envs;
-	if (!ft_strcmp(key, envs->key))
+	if (tokens)
+		key = tokens->text;
+	else
+		key = NULL;
+	if (key && !ft_strcmp(key, envs->value))
 		start = envs->next;
 	else
 	{
-		while (envs && ft_strcmp(key, envs->key))
+		while (envs && key && ft_strcmp(key, envs->value))
 		{
 			last = envs;
 			envs = envs->next;
@@ -31,7 +38,12 @@ t_envs	*ft_exec_unset(t_envs *envs, char *key)
 		if (envs)
 			last->next = envs->next;
 	}
-	if (!envs)
+	return (ft_finish(envs, start, key));
+}
+
+static t_envs	*ft_finish(t_envs *envs, t_envs *start, char *key)
+{
+	if (!envs || !key)
 		return (start);
 	free(envs->key);
 	free(envs->value);
