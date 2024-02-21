@@ -16,11 +16,16 @@ static int	ft_check_first_char(char *args);
 static int	ft_check_signal_equal(char *args);
 static char	*ft_remove_quotes(char *array_args);
 
-t_envs	*ft_exec_export(t_envs *envs, char *args)
+t_envs	*ft_exec_export(t_envs *envs, t_parsed *tokens)
 {
 	char	*new_array;
+	char	*args;
 
 	new_array = NULL;
+	if (tokens)
+		args = tokens->text;
+	else
+		args = NULL;
 	if (ft_check_first_char(args) && ft_check_signal_equal(args))
 	{
 		if (*args == '\"' || *args == '\'')
@@ -39,6 +44,8 @@ t_envs	*ft_exec_export(t_envs *envs, char *args)
 
 static int	ft_check_first_char(char *args)
 {
+	if (!args)
+		return (0);
 	while (*args == '\"' || *args == '\'')
 		args++;
 	if (ft_isalpha(*args))
@@ -51,6 +58,8 @@ static int	ft_check_signal_equal(char *args)
 	int	i;
 
 	i = 0;
+	if (!args)
+		return (0);
 	while (args[i])
 	{
 		if (args[i] == '=' && ft_isalnum(args[i - 1])

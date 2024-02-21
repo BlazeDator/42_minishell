@@ -15,11 +15,16 @@
 static void	ft_update_curr_dir(t_envs *envs, char *curr_dir, char *old_pwd);
 static void	ft_get_home_dir(t_envs *envs);
 
-void	ft_exec_cd(char *args, t_envs *envs)
+void	ft_exec_cd(t_parsed *tokens, t_envs *envs)
 {
 	char	curr_dir[PATH_MAX];
 	char	old_pwd[PATH_MAX];
+	char	*args;
 
+	if (tokens)
+		args = tokens->text;
+	else
+		args = NULL;
 	if (getcwd(old_pwd, sizeof(old_pwd)))
 	{
 		if (args == NULL || !ft_strcmp(args, "~"))
