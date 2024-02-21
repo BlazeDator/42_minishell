@@ -25,3 +25,22 @@ char	*ft_get_dir(void)
 	free(dir);
 	return (tmp);
 }
+
+char	**ft_get_path(t_envs *envs)
+{
+	char	*value;
+	char	**path_value;
+
+	path_value = NULL;
+	value = NULL;
+	while (envs)
+	{
+		if (!ft_strncmp(envs->key, "PATH", 4))
+			value = ft_substr(envs->value, 0, ft_strlen(envs->value));
+		envs = envs->next;
+	}
+	if (value)
+		path_value = ft_split(value, ':');
+	free(value);
+	return (path_value);
+}
