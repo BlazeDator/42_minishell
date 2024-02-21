@@ -62,7 +62,6 @@ typedef enum s_special
 	RD_INPUT,
 	RD_HEREDOC,
 	PIPE,
-	COMMAND,
 	STRING
 }					t_special;
 
@@ -75,11 +74,11 @@ typedef struct s_envs
 
 typedef struct s_parsed
 {
-	char			*text;
-	char			*type;
-	struct s_parsed	*next;
-	struct s_parsed	*prev;
-	int				unite_with_next;
+	char				*text;
+	t_special			type;
+	struct s_parsed		*next;
+	struct s_parsed		*prev;
+	int					unite_with_next;
 }					t_parsed;
 
 /* ************************************************************************** */
@@ -107,6 +106,10 @@ void				ft_farfaraway(t_parsed *tokens, int klen, char **new,
 /*				executer.c					   */
 /* ************************************************************************** */
 void				ft_executer(char *path);
+/* ************************************************************************** */
+/*				excve.c					       */
+/* ************************************************************************** */
+void				*ft_check_command(t_envs *envs, t_parsed *tokens);
 /* ************************************************************************* */
 /*				envs.c						   */
 /* ************************************************************************** */
@@ -161,7 +164,8 @@ void				ft_exec_env(t_envs *envs);
 /**
  * @brief Free the memory and exit the program.
  */
-void				ft_exit(void);
+void				ft_exit(t_parsed *tokens);
+void				ft_free_tokens(t_parsed *tokens);
 
 /* ************************************************************************** */
 /*				signal_handlers.c				   */

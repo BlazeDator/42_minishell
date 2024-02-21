@@ -12,8 +12,6 @@
 
 #include "../headers/minishell.h"
 
-static void	ft_free_tokens(t_parsed *tokens);
-
 int	pipe_check(char *line)
 {
 	int	i;
@@ -88,8 +86,6 @@ void	ft_parser(char *line)
 
 	if (!ft_check_open_quotes(line))
 		return ;
-	if (!strncmp(line, "ls", 2))
-		ft_executer("/bin/ls");
 	if (!redirect_basic_check(line))
 	{
 		ft_printf("invalid redirect\n");
@@ -108,7 +104,7 @@ void	ft_parser(char *line)
 	ft_free_tokens(tokens);
 }
 
-static void	ft_free_tokens(t_parsed *tokens)
+void	ft_free_tokens(t_parsed *tokens)
 {
 	t_parsed	*tmp;
 
@@ -116,7 +112,6 @@ static void	ft_free_tokens(t_parsed *tokens)
 	{
 		tmp = tokens->next;
 		free(tokens->text);
-		free(tokens->type);
 		free(tokens);
 		tokens = tmp;
 	}
