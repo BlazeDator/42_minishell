@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 15:19:48 by hescoval          #+#    #+#             */
-/*   Updated: 2024/02/20 13:16:15 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:14:59 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,24 @@ void	ft_farfaraway(t_parsed *tokens, int klen, char **new, char **tmp)
 	free(*tmp);
 	free(tokens->text);
 	tokens->text = *new;
+}
+
+int	pipe_check(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '|' && !quotes_open(line, i))
+		{
+			if (i == 0)
+				return (0);
+			if (line[i + 1] == '\0')
+				return (0);
+			if (i != 0 && (line[i - 1] == '|' || line[i + 1] == '|'))
+				return (0);
+		}
+	}
+	return (1);
 }

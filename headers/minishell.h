@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/21 11:35:13 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:55:31 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void				ft_minishell(void);
 /* ************************************************************************** */
 /*				parser.c					   */
 /* ************************************************************************** */
-void				ft_parser(char *line);
+void				ft_parser(t_parsed *tokens);
 int					redirect_check(char *line);
 int					padding_needed(char *line, int i, int pad);
 void				pad(char *src, char *dest, int i, int j);
@@ -102,6 +102,11 @@ int					quotes_open(char *str, int target_index);
 t_parsed			*make_list(char **args);
 void				ft_farfaraway(t_parsed *tokens, int klen, char **new,
 						char **tmp);
+int					ft_check_open_quotes(char *line);
+int					redirect_basic_check(char *line);
+int					pipe_check(char *line);
+int					redirect_basic_check(char *line);
+
 /* ************************************************************************** */
 /*				executer.c					   */
 /* ************************************************************************** */
@@ -202,5 +207,16 @@ int					ft_key_len(char *str);
 /*									treat_token.c							*/
 /* ************************************************************************** */
 void				ft_treat_token(t_parsed *token, char *line);
+
+/* ************************************************************************** */
+/*									pipe.c							*/
+/* ************************************************************************** */
+void				ft_pipe(int *num_com, pid_t parent);
+
+/* ************************************************************************** */
+/*									pipe.c							*/
+/* ************************************************************************** */
+void				ft_manage_heredoc(int pipe_fd[2], char *heredoc);
+int					ft_redirect(t_parsed **tokens, int num_com);
 
 #endif
