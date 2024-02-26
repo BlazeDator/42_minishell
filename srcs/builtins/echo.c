@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmeirele <dmeirele@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:33:04 by dmeirele          #+#    #+#             */
-/*   Updated: 2024/02/08 22:23:03 by dmeirele         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:23:41 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_exec_echo(t_parsed *tokens)
 		{
 			flag_nl = 0;
 			aux = aux->next;
+			printf("\n");
 		}
 		else
 			option = 0;

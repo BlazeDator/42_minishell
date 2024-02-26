@@ -6,113 +6,110 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/20 13:41:07 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:56:10 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-int	pipe_check(char *line)
+static t_parsed	**ft_commands(t_parsed *tokens, int *num_com);
+static int		ft_count_pipe(t_parsed *tokens);
+static void		ft_overpipe(t_parsed **tokens, int *num_com);
+static void		ft_free_commands(t_parsed **commands, int total_com);
+
+void	ft_parser(t_parsed *tokens)
+{
+	t_parsed	**commands;
+	int			num_com;
+	int			total_com;
+	int			std_fd[2];
+	pid_t		parent;
+
+	parent = getpid();
+	std_fd[0] = dup(0);
+	std_fd[1] = dup(1);
+	commands = ft_commands(tokens, &num_com);
+	total_com = num_com;
+	ft_pipe(&num_com, parent);
+	if (ft_redirect(commands, num_com - 1) != -1)
+		ft_exec_builtins(commands[num_com - 1]);
+	else
+		ft_printf("Invalid file permission for redirection.\n");
+	dup2(std_fd[0], 0);
+	dup2(std_fd[1], 1);
+	close(std_fd[0]);
+	close(std_fd[1]);
+	ft_free_commands(commands, total_com);
+	if (getpid() != parent)
+		ft_exit(NULL);
+	else
+		waitpid(-1, NULL, 0);
+}
+
+static void	ft_free_commands(t_parsed **commands, int total_com)
 {
 	int	i;
 
-	i = -1;
-	while (line[++i])
+	i = 0;
+	while (i < total_com)
 	{
-		if (line[i] == '|' && !quotes_open(line, i))
-		{
-			if (i == 0)
-				return (0);
-			if (line[i + 1] == '\0')
-				return (0);
-			if (i != 0 && (line[i - 1] == '|' || line[i + 1] == '|'))
-				return (0);
-		}
+		ft_free_tokens(commands[i]);
+		i++;
 	}
-	return (1);
+	free(commands);
 }
 
-int	redirect_basic_check(char *line)
+static t_parsed	**ft_commands(t_parsed *tokens, int *num_com)
+{
+	t_parsed	*aux;
+	t_parsed	**commands;
+	int			i;
+
+	aux = tokens;
+	*num_com = ft_count_pipe(tokens);
+	commands = ft_calloc(*num_com + 1, sizeof(t_parsed *));
+	i = 0;
+	commands[i++] = aux;
+	while (aux)
+	{
+		if (aux->type == RD_OVERWRITE && aux->next && aux->next->type == PIPE)
+			ft_overpipe(&aux, num_com);
+		else if (aux->type == PIPE)
+		{
+			commands[i] = aux->next;
+			aux->prev->next = NULL;
+			aux->next = NULL;
+			ft_free_tokens(aux);
+			aux = commands[i++];
+		}
+		else
+			aux = aux->next;
+	}
+	return (commands);
+}
+
+static void	ft_overpipe(t_parsed **tokens, int *num_com)
+{
+	t_parsed	*pipe_token;
+
+	pipe_token = (*tokens)->next;
+	(*tokens)->next = pipe_token->next;
+	(*tokens)->next->prev = *tokens;
+	free(pipe_token->text);
+	free(pipe_token);
+	(*num_com)--;
+}
+
+static int	ft_count_pipe(t_parsed *tokens)
 {
 	int	i;
-	int	count;
 
-	i = -1;
-	while (line[++i])
-	{
-		count = 0;
-		if (find_char(line[i], "><") && !quotes_open(line, i))
-		{
-			while (line[i] && find_char(line[i], "><"))
-			{
-				if (find_char(line[i + 1], "><") && line[i + 1] != line[i])
-					return (0);
-				count++;
-				i++;
-			}
-		}
-		if (count > 2)
-			return (0);
-	}
-	return (1);
-}
-
-int	ft_check_open_quotes(char *line)
-{
-	char	quote;
-	int		state;
-
-	state = 0;
-	while (*line)
-	{
-		if (!state && (*line == '\'' || *line == '\"'))
-		{
-			state = 1;
-			quote = *line;
-		}
-		else if (state && *line == quote)
-			state = 0;
-		line++;
-	}
-	if (state && write(2, "Error: Open quotes\n", 19))
-		return (0);
-	return (1);
-}
-
-void	ft_parser(char *line)
-{
-	t_parsed	*tokens;
-	char		*help_hugo_god;
-
-	if (!ft_check_open_quotes(line))
-		return ;
-	if (!redirect_basic_check(line))
-	{
-		ft_printf("invalid redirect\n");
-		exit(1);
-	}
-	if (!pipe_check(line))
-	{
-		ft_printf("Unexpected near '|'\n");
-		exit(1);
-	}
-	help_hugo_god = pad_central(line);
-	tokens = ft_split_token(help_hugo_god);
-	ft_treat_token(tokens, help_hugo_god);
-	free(help_hugo_god);
-	ft_exec_builtins(tokens);
-	ft_free_tokens(tokens);
-}
-
-void	ft_free_tokens(t_parsed *tokens)
-{
-	t_parsed	*tmp;
-
+	i = 1;
 	while (tokens)
 	{
-		tmp = tokens->next;
-		free(tokens->text);
-		free(tokens);
-		tokens = tmp;
+		if (tokens->type == PIPE)
+			i++;
+		tokens = tokens->next;
 	}
+	return (i);
 }

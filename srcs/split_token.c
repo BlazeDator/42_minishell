@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:28:12 by txisto-d          #+#    #+#             */
-/*   Updated: 2024/02/20 11:30:46 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:10:59 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_parsed	*ft_split_token(char *line)
 	if (!aux)
 		exit(1);
 	head = aux;
+	aux->prev = NULL;
 	ft_token_list(line, aux, &i);
 	aux->type = find_type(aux->text);
 	aux = aux->next;
