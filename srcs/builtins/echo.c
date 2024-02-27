@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:33:04 by dmeirele          #+#    #+#             */
-/*   Updated: 2024/02/23 16:23:41 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:52:37 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ void	ft_exec_echo(t_parsed *tokens)
 		{
 			flag_nl = 0;
 			aux = aux->next;
-			printf("\n");
 		}
 		else
 			option = 0;
 		if (!option)
 		{
-			printf("%s", aux->text);
+			ft_putstr_fd(aux->text, 1);
 			ft_print_echo_space(aux);
 			aux = aux->next;
 		}
@@ -65,13 +64,13 @@ static int	ft_check_echo_arguments(char *array_args)
 static void	ft_print_echo_space(t_parsed *aux)
 {
 	if (aux->next)
-		printf(" ");
+		ft_putstr_fd(" ", 1);
 	return ;
 }
 
 static void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return ;
 }

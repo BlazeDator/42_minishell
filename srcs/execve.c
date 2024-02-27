@@ -13,56 +13,9 @@
 #include "../headers/minishell.h"
 
 static void	ft_exec_command(char *command, t_parsed *tokens);
-static char	**ft_get_path(t_envs *envs);
 static char	**ft_count_args(t_parsed *tokens);
-
-static char	**ft_get_path(t_envs *envs)
-{
-	char	*value;
-	char	**path_value;
-
-	path_value = NULL;
-	value = NULL;
-	while (envs)
-	{
-		if (!ft_strncmp(envs->key, "PATH", 4))
-			value = ft_substr(envs->value, 0, ft_strlen(envs->value));
-		envs = envs->next;
-	}
-	if (value)
-		path_value = ft_split(value, ':');
-	free(value);
-	return (path_value);
-}
-
-void	*ft_check_command(t_envs *envs, t_parsed *tokens)
-{
-	char	**path;
-	char	*command;
-	char	*temp;
-	int		i;
-
-	i = -1;
-	path = ft_get_path(envs);
-	if (!*path)
-		return (NULL);
-	while (path[++i])
-	{
-		temp = ft_strjoin(path[i], "/");
-		command = ft_strjoin(temp, tokens->text);
-		free(temp);
-		if (access(command, X_OK) == 0)
-		{
-			free_splits(path);
-			ft_exec_command(command, tokens);
-			free(command);
-			return (NULL);
-		}
-		free(command);
-	}
-	free_splits(path);
-	return (NULL);
-}
+static char	*ft_get_absolut_path(char *command, t_envs *envs);
+static char	*ft_get_relative_path(char *command);
 
 static void	ft_exec_command(char *command, t_parsed *tokens)
 {
@@ -70,6 +23,7 @@ static void	ft_exec_command(char *command, t_parsed *tokens)
 	pid_t	new_process;
 	char	**array_env;
 	char	**new_array;
+	int		status;
 
 	new_array = ft_count_args(tokens);
 	envs = return_envs(0);
@@ -77,17 +31,12 @@ static void	ft_exec_command(char *command, t_parsed *tokens)
 	new_process = fork();
 	if (!new_process)
 	{
-		if (execve(command, new_array, array_env) == -1)
-		{
-			free_splits(new_array);
-			free_splits(array_env);
-			printf("\nCommand = [%s]\n\n", command);
-			free(command);
-			ft_exit(tokens);
-		}
+		ft_executer(command, new_array, array_env, tokens);
 	}
-	else
-		waitpid(-1, NULL, 0);
+	waitpid(-1, &status, 0);
+	if (status == 131)
+		printf("Quit (core dumped)\n");
+	free(command);
 	free_splits(new_array);
 	free_splits(array_env);
 }
@@ -115,4 +64,62 @@ static char	**ft_count_args(t_parsed *tokens)
 	}
 	new[i] = NULL;
 	return (new);
+}
+
+static char	*ft_get_absolut_path(char *command, t_envs *envs)
+{
+	char	**path;
+	char	*temp;
+	char	*exec;
+	int		i;
+
+	i = -1;
+	if (access(command, X_OK) == 0)
+		return (ft_strdup(command));
+	path = ft_get_path(envs);
+	while (path[++i])
+	{
+		temp = ft_strjoin(path[i], "/");
+		exec = ft_strjoin(temp, command);
+		free(temp);
+		if (access(exec, X_OK) == 0)
+		{
+			free_splits(path);
+			return (exec);
+		}
+		free(exec);
+	}
+	return (free_splits(path), NULL);
+}
+
+static char	*ft_get_relative_path(char *command)
+{
+	char	*curr_dir;
+	char	*relative_path;
+	char	*temp;
+
+	curr_dir = getcwd(NULL, 0);
+	temp = ft_strjoin(curr_dir, "/");
+	relative_path = ft_strjoin(temp, command);
+	free(temp);
+	free(curr_dir);
+	return (relative_path);
+}
+
+void	ft_find_path(t_parsed *token, t_envs *envs)
+{
+	char	*command;
+	char	*path;
+
+	command = ft_strdup(token->text);
+	path = NULL;
+	if (!ft_strncmp(command, "./", 2))
+		path = ft_get_relative_path(command);
+	else
+		path = ft_get_absolut_path(command, envs);
+	if (path)
+		ft_exec_command(path, token);
+	else
+		printf("%s: No such file or directory\n", command);
+	free(command);
 }

@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 09:37:04 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/26 19:56:10 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:54:50 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_parsed	**ft_commands(t_parsed *tokens, int *num_com);
 static int		ft_count_pipe(t_parsed *tokens);
 static void		ft_overpipe(t_parsed **tokens, int *num_com);
-static void		ft_free_commands(t_parsed **commands, int total_com);
+static void		ft_disconect(t_parsed *aux);
 
 void	ft_parser(t_parsed *tokens)
 {
@@ -28,13 +28,11 @@ void	ft_parser(t_parsed *tokens)
 	parent = getpid();
 	std_fd[0] = dup(0);
 	std_fd[1] = dup(1);
-	commands = ft_commands(tokens, &num_com);
-	total_com = num_com;
-	ft_pipe(&num_com, parent);
-	if (ft_redirect(commands, num_com - 1) != -1)
-		ft_exec_builtins(commands[num_com - 1]);
-	else
-		ft_printf("Invalid file permission for redirection.\n");
+	commands = ft_commands(tokens, &total_com);
+	num_com = 0;
+	ft_pipe(&num_com, total_com, parent);
+	if (ft_redirect(commands, num_com, std_fd[0]) != -1 && commands[num_com])
+		ft_exec_builtins(commands[num_com]);
 	dup2(std_fd[0], 0);
 	dup2(std_fd[1], 1);
 	close(std_fd[0]);
@@ -44,19 +42,6 @@ void	ft_parser(t_parsed *tokens)
 		ft_exit(NULL);
 	else
 		waitpid(-1, NULL, 0);
-}
-
-static void	ft_free_commands(t_parsed **commands, int total_com)
-{
-	int	i;
-
-	i = 0;
-	while (i < total_com)
-	{
-		ft_free_tokens(commands[i]);
-		i++;
-	}
-	free(commands);
 }
 
 static t_parsed	**ft_commands(t_parsed *tokens, int *num_com)
@@ -77,15 +62,21 @@ static t_parsed	**ft_commands(t_parsed *tokens, int *num_com)
 		else if (aux->type == PIPE)
 		{
 			commands[i] = aux->next;
-			aux->prev->next = NULL;
-			aux->next = NULL;
-			ft_free_tokens(aux);
+			ft_disconect(aux);
 			aux = commands[i++];
 		}
 		else
 			aux = aux->next;
 	}
 	return (commands);
+}
+
+static void	ft_disconect(t_parsed *aux)
+{
+	aux->prev->next = NULL;
+	aux->next->prev = NULL;
+	aux->next = NULL;
+	ft_free_tokens(aux);
 }
 
 static void	ft_overpipe(t_parsed **tokens, int *num_com)

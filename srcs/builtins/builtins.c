@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 22:57:18 by dmeirele          #+#    #+#             */
-/*   Updated: 2024/02/26 20:01:03 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:33:55 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void	ft_exec_builtins(t_parsed *tokens)
 		|| !ft_strcmp(tokens->text, "\\exit"))
 		ft_exit(tokens);
 	else
-		ft_check_command(envs, tokens);
+		ft_find_path(tokens, envs);
 }

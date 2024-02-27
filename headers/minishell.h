@@ -6,7 +6,7 @@
 /*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:06:26 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/26 19:55:31 by txisto-d         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:13:20 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,19 @@ int					redirect_basic_check(char *line);
 /* ************************************************************************** */
 /*				executer.c					   */
 /* ************************************************************************** */
-void				ft_executer(char *path);
+void				ft_executer(char *command, char **new_array,
+						char **array_env, t_parsed *tokens);
 /* ************************************************************************** */
 /*				excve.c					       */
 /* ************************************************************************** */
 void				*ft_check_command(t_envs *envs, t_parsed *tokens);
+void				ft_find_path(t_parsed *token, t_envs *envs);
 /* ************************************************************************* */
 /*				envs.c						   */
 /* ************************************************************************** */
 t_envs				*ft_create_envs(void);
 t_envs				*ft_new_env(char *str);
 t_envs				*ft_add_env(t_envs *envs, t_envs *new);
-t_envs				*ft_free_envs(t_envs *envs);
 char				**ft_array_envs(t_envs *envs);
 /* ************************************************************************** */
 /*				api.c						   */
@@ -134,6 +135,9 @@ char				**return_argv(char **argv);
 void				ft_init_signals(void);
 void				ft_ignore_signals(void);
 void				ft_restore_signals(void);
+void				ft_doc_signals(void);
+t_parsed			**ft_save_commands(t_parsed **commands);
+
 /* ************************************************************************** */
 /*				builtins.c					   */
 /* ************************************************************************** */
@@ -170,7 +174,6 @@ void				ft_exec_env(t_envs *envs);
  * @brief Free the memory and exit the program.
  */
 void				ft_exit(t_parsed *tokens);
-void				ft_free_tokens(t_parsed *tokens);
 
 /* ************************************************************************** */
 /*				signal_handlers.c				   */
@@ -179,6 +182,7 @@ void				ft_handle_eof(void);
 void				ft_handle_sigint(int sig);
 void				ft_handle_sigint_ign(int sig);
 void				ft_handle_sigquit(int sig);
+void				ft_handle_doc(int sig);
 /* ************************************************************************** */
 /*									directory.c								*/
 /* ************************************************************************** */
@@ -188,6 +192,7 @@ void				ft_handle_sigquit(int sig);
  * @return char * with the current directory memory allocated.
  */
 char				*ft_get_dir(void);
+char				**ft_get_path(t_envs *envs);
 
 /* ************************************************************************** */
 /*									split_token.c							*/
@@ -210,12 +215,23 @@ void				ft_treat_token(t_parsed *token, char *line);
 /* ************************************************************************** */
 /*									pipe.c							*/
 /* ************************************************************************** */
-void				ft_pipe(int *num_com, pid_t parent);
+void				ft_pipe(int *num_com, int total_com, pid_t parent);
+int					valid_tokens(t_parsed *tokens);
 
 /* ************************************************************************** */
-/*									pipe.c							*/
+/*									redirect.c							*/
 /* ************************************************************************** */
-void				ft_manage_heredoc(int pipe_fd[2], char *heredoc);
-int					ft_redirect(t_parsed **tokens, int num_com);
+pid_t				ft_manage_heredoc(int pipe_fd[2], char *heredoc,
+						int std_0, t_parsed **tokens);
+int					ft_redirect(t_parsed **tokens, int num_com, int std_0);
+void				ft_in_doc(int pipe_fd[2], char *heredoc);
+
+/* ************************************************************************** */
+/*									free.c							*/
+/* ************************************************************************** */
+
+void				ft_free_commands(t_parsed **commands, int total_com);
+void				ft_free_tokens(t_parsed *tokens);
+t_envs				*ft_free_envs(t_envs *envs);
 
 #endif

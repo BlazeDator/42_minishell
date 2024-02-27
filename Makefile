@@ -6,7 +6,7 @@
 #    By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/03 11:29:26 by pabernar          #+#    #+#              #
-#    Updated: 2024/02/23 23:38:28 by txisto-d         ###   ########.fr        #
+#    Updated: 2024/02/26 22:26:40 by txisto-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ split_token.c \
 expander.c \
 treat_token.c \
 pipe.c \
-redirect.c
+redirect.c \
+free.c
 SRCS_DIR = srcs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 OBJS_DIR = objs/

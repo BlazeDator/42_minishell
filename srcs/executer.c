@@ -3,31 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: txisto-d <txisto-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:00:28 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 15:29:37 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:19:15 by txisto-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	ft_executer(char *path)
+void	ft_executer(char *command, char **new_array,
+		char **array_env, t_parsed *tokens)
 {
-	char		**argv;
-	extern char	**environ;
-
-	argv = return_argv(0);
-	if (fork() == 0)
+	ft_restore_signals();
+	if (execve(command, new_array, array_env) == -1)
 	{
-		ft_restore_signals();
-		execve(path, argv, environ);
-		exit(0);
+		free_splits(new_array);
+		free_splits(array_env);
+		free(command);
+		ft_exit(tokens);
 	}
-	ft_ignore_signals();
-	wait(0);
-	if (g_signal == SIGINT || g_signal == SIGQUIT)
-		printf("\n");
-	rl_on_new_line();
-	ft_init_signals();
 }
